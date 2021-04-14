@@ -1,102 +1,33 @@
 /*
-Describe an algorithm for concatenating two singly linked lists L and M,
- into a single list L' that contains all the nodes of L followed by all the nodes of M.
+ Write generic method to merge tow arrays of any type
  */
-
-import java.util.*;
+import java.util.stream.Stream;
+import java.util.Arrays;
+import java.io.*;
 public class SecondProgram {
-    static class Node
+
+    public static <T> Object[] concatenate(T[] a, T[] b)
     {
-        int data;
-        Node next;
-        Node(int d) {data = d;
-            next = null;}
+        // Function to merge two arrays of
+        // same type
+        return Stream.of(a, b)
+                .flatMap(Stream::of)
+                .toArray();
+
+        // Arrays::stream can also be used in place
+        // of Stream::of in the flatMap() above.
     }
 
-    static class MergeLists
+    public static void main (String[] args)
     {
-        Node head;
-        public void addToTheLast(Node node)
-        {
-            if (head == null)
-            {
-                head = node;
-            }
-            else
-            {
-                Node temp = head;
-                while (temp.next != null)
-                    temp = temp.next;
-                temp.next = node;
-            }
-        }
+        Integer[] a = new Integer[]{1,2,3};
+        Integer[] b = new Integer[]{4,5,6};
 
-        void printList()
-        {
-            Node temp = head;
-            while (temp != null)
-            {
-                System.out.print(temp.data + " ");
-                temp = temp.next;
-            }
-            System.out.println();
-        }
+        Object[] c = concatenate(a,b);
 
-        public static void main(String args[])
-        {
-            MergeLists llist1 = new MergeLists();
-            MergeLists llist2 = new MergeLists();
-            llist1.addToTheLast(new Node(5));
-            llist1.addToTheLast(new Node(10));
-            llist1.addToTheLast(new Node(15));
-
-            llist2.addToTheLast(new Node(2));
-            llist2.addToTheLast(new Node(3));
-            llist2.addToTheLast(new Node(20));
-
-            llist1.head = new Gfg().sortedMerge(llist1.head,
-                    llist2.head);
-            System.out.println("singly linked lists L and M");
-            llist1.printList();
-
-        }
-    }
-
-    static class Gfg
-    {
-        Node sortedMerge(Node headA, Node headB)
-        {
-
-            Node dummyNode = new Node(0);
-
-            Node tail = dummyNode;
-            while(true)
-            {
-                if(headA == null)
-                {
-                    tail.next = headB;
-                    break;
-                }
-                if(headB == null)
-                {
-                    tail.next = headA;
-                    break;
-                }
-
-                if(headA.data <= headB.data)
-                {
-                    tail.next = headA;
-                    headA = headA.next;
-                }
-                else
-                {
-                    tail.next = headB;
-                    headB = headB.next;
-                }
-
-                tail = tail.next;
-            }
-            return dummyNode.next;
-        }
+        System.out.println("The first array is:  [ 1 , 2 , 3 ]");
+        System.out.println("The Second array is: [ 4 , 5 , 6 ]");
+        System.out.println("Merged object array  is : "
+                + Arrays.toString(c));
     }
 }
